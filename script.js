@@ -2,6 +2,7 @@
 	 		const taskInput = document.getElementById('task-input'); 	// Get the task input element
 	 		const taskList = document.getElementById('task-list'); 		// Get the task list element
 	 		const deleteButton = document.getElementById('delete-btn'); 	// Get the delete button element
+			const searchInput = document.getElementById('search-input');	// Get the search task element
 
 			// Retrieve tasks from Local Storage when page loads
 			let tasks = JSON.parse(localStorage.getItem('tasks')) || []; 	// Get tasks from Local Storage or create an empty array
@@ -56,3 +57,22 @@
 					li.classList.toggle('checked'); 		// Toggle the "checked" class to mark the task as completed
 				}
 			});
+
+			// Takes the input task to be searched
+			searchInput.addEventListener('input', function() {
+  				filterTasks(searchInput.value);
+			});
+
+			function filterTasks(searchTerm) {
+  				const tasks = document.querySelectorAll('#task-list li');
+ 				tasks.forEach(function(task) {
+    					const text = task.querySelector('span').innerText.toLowerCase();
+    					if (text.includes(searchTerm.toLowerCase())) {
+      						task.style.display = 'flex';
+    					} else {
+      						task.style.display = 'none';
+    					}
+  				});
+			}
+
+			filterTasks('');
